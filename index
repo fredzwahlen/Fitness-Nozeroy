@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Fitness EPS PRO</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+
+</head>
+
+<body>
+
+<h1>💪 Fitness EPS</h1>
+
+<div id="login">
+
+<h2>Connexion</h2>
+
+<input id="name" placeholder="Nom élève">
+<input id="classe" placeholder="Classe (ex: 4A)">
+
+<button onclick="login()">Entrer</button>
+
+</div>
+
+<div id="app" style="display:none">
+
+<h2 id="welcome"></h2>
+
+<button onclick="generateWorkout()">📅 Séance du jour</button>
+
+<div id="workout"></div>
+
+<h2>📊 Mes résultats</h2>
+<div id="stats"></div>
+
+</div>
+
+<script src="firebase.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+// --- Données exercices ---
+const groups = {
+  Bras: Array.from({ length: 10 }, (_, i) => ({
+    name: `Exercice bras ${i + 1}`,
+    gif: "https://media.giphy.com/media/3o7TKtnuHOHHUjR38Y/giphy.gif",
+  })),
+  Jambes: Array.from({ length: 10 }, (_, i) => ({
+    name: `Exercice jambes ${i + 1}`,
+    gif: "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif",
+  })),
+  Cardio: Array.from({ length: 10 }, (_, i) => ({
+    name: `Exercice cardio ${i + 1}`,
+    gif: "https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif",
+  })),
+  Pectoraux: Array.from({ length: 10 }, (_, i) => ({
+    name: `Exercice pectoraux ${i + 1}`,
+    gif: "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif",
+  })),
+  Épaules: Array.from({ length: 10 }, (_, i) => ({
+    name: `Exercice épaules ${i + 1}`,
+    gif: "https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif",
+  })),
+  Abdominaux: Array.from({ length: 10 }, (_, i) => ({
+    name: `Exercice abdos ${i + 1}`,
+    gif: "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif",
+  })),
+};
+
+export default function App() {
+  const [page, setPage] = useState("home");
+  const [student, setStudent] = useState({ name: "", class: "" });
+  const [time, setTime] = useState(30);
+  const [reps, setReps] = useState(0);
+
+  // --- Timer ---
+  const startTimer = () => {
+    let t = time;
+    const interval = setInterval(() => {
+      t--;
+      setTime(t);
+      if (t <= 0) clearInterval(interval);
+    }, 1000);
+  };
+
+  // --- Pages ---
+  if (page === "home") {
+    return (
+      <div className="p-4 text-center">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Nozeroy.jpg"
+          alt="Collège de Nozeroy"
+          className="rounded-2xl mb-4"
+        />
+        <h1 className="text-xl font-bold">Application EPS Musculation</h1>
+
+        <input
+          placeholder="Prénom"
+          className="border p-2 m-2"
+          onChange={(e) => setStudent({ ...student, name: e.target.value })}
+        />
+        <input
+          placeholder="Classe"
+          className="border p-2 m-2"
+          onChange={(e) => setStudent({ ...student, class: e.target.value })}
+        />
+
+        <Button onClick={() => setPage("warmup")}>Commencer</Button>
+      </div>
+    );
+  }
+
+  if (page === "warmup") {
+    return (
+      <div className="p-4">
+        <h2 className="text-lg font-bold">Échauffement obligatoire</h2>
+        <p>
+          - Toujours garder le dos droit\n- Contracter les abdominaux\n- Ne pas cambrer
+        </p>
+        <Button onClick={() => setPage("workout")}>Continuer</Button>
+      </div>
+    );
+  }
+
+  if (page === "workout") {
+    return (
+      <div className="p-4">
+        <h2 className="text-lg font-bold">Séance</h2>
+
+        {Object.entries(groups).map(([group, exercises]) => (
+          <Card key={group} className="mb-4">
+            <CardContent>
+              <h3 className="font-bold">{group}</h3>
+
+              {exercises.map((ex, i) => (
+                <div key={i} className="mb-2">
+                  <p>{ex.name}</p>
+                  <img src={ex.gif} className="w-32" />
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        ))}
+
+        <div className="mt-4">
+          <h3>Chronomètre</h3>
+          <p>{time}s</p>
+          <Button onClick={startTimer}>Start</Button>
+        </div>
+
+        <div className="mt-4">
+          <h3>Répétitions</h3>
+          <p>{reps}</p>
+          <Button onClick={() => setReps(reps + 1)}>+1</Button>
+        </div>
+
+        <Button onClick={() => setPage("stretch")}>Fin séance</Button>
+      </div>
+    );
+  }
+
+  if (page === "stretch") {
+    return (
+      <div className="p-4">
+        <h2 className="text-lg font-bold">Étirements</h2>
+        <p>
+          Étirements des bras, jambes, dos et abdominaux pendant 5-10 minutes.
+        </p>
+        <Button onClick={() => setPage("home")}>Retour accueil</Button>
+      </div>
+    );
+  }
+
+  return null;
+}
